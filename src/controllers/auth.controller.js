@@ -1,5 +1,7 @@
 const { users } = require("../utils/inMemoryUserStorage")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("../../config/env")
 
 const register = async (req, res) => {
     const { email, password } = req.body;
@@ -58,8 +60,11 @@ const login = async (req, res) => {
         })
     }
 
+    const token = jwt.sign({ email: user.email }, JWT_SECRET, { expiresIn: "1h" });
+
     return res.status(200).json({
-        message: "Succesfuly Login"
+        message: "Succesfuly Login",
+        token
     })
 }
 
