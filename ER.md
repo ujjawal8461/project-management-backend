@@ -2,15 +2,11 @@
 
 # Tables:
 
-User: id uuid pk, fname, lname, email unique, hashedpassword, created at , updated at
-
-Organization: id uuid pk, organizationName, created at , udated at
-
-OrganizationMember: id uuid pk, userId fk, organizationId fk, role, created at , updated at
-
-Projects: id uuid pk, projectName, OrganizationId fk, created at , updated at
-
-Task: id uuid pk, title, desc, status, projectId fk , assigne to (userid) ,created at, updated at
+User: id uuid pk, fname, lname, email unique, hashedpassword, is_delete, created at , updated at
+Organization: id uuid pk, organizationName, is_delete, created at , udated at
+OrganizationMember: id uuid pk, userId fk, organizationId fk, role, is_delete, created at , updated at
+Projects: id uuid pk, projectName, OrganizationId fk, is_delete created at , updated at
+Task: id uuid pk, title, desc, status, projectId fk , assigne to (userid), is_delete ,created at, updated at
 
     USER {
         uuid id PK
@@ -20,6 +16,7 @@ Task: id uuid pk, title, desc, status, projectId fk , assigne to (userid) ,creat
         string hashed_password
         datetime created_at
         datetime updated_at
+        boolean is_delete
     }
 
     ORGANIZATION {
@@ -27,6 +24,7 @@ Task: id uuid pk, title, desc, status, projectId fk , assigne to (userid) ,creat
         string name
         datetime created_at
         datetime updated_at
+        boolean is_delete
     }
 
     ORGANIZATION_MEMBER {
@@ -36,6 +34,7 @@ Task: id uuid pk, title, desc, status, projectId fk , assigne to (userid) ,creat
         string role
         datetime created_at
         datetime updated_at
+        boolean is_delete
     }
 
     PROJECT {
@@ -44,6 +43,7 @@ Task: id uuid pk, title, desc, status, projectId fk , assigne to (userid) ,creat
         uuid organization_id FK
         datetime created_at
         datetime updated_at
+        boolean is_delete
     }
 
     TASK {
@@ -55,6 +55,7 @@ Task: id uuid pk, title, desc, status, projectId fk , assigne to (userid) ,creat
         uuid assignee_id FK
         datetime created_at
         datetime updated_at
+        boolean is_delete
     }
 
     USER ||--o{ ORGANIZATION_MEMBER : has

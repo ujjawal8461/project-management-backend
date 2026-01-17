@@ -141,6 +141,14 @@
 - ETA
 - Priority
 
+
+## Phase 9.5 — Soft Delete (Planned)
+
+- Soft delete support for core entities
+- Use `deletedAt` instead of hard deletes
+- Default queries exclude deleted records
+- Restore (undo delete) capability
+- Authorization rules for delete & restore
 ---
 
 ## Phase 10 — Comments & Activity
