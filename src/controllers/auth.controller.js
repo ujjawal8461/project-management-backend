@@ -1,31 +1,46 @@
-const { users } = require("../utils/inMemoryUserStorage")
+// const { users } = require("../utils/inMemoryUserStorage")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../../config/env")
+const userService = require("../services/user.service");
 
 const register = async (req, res) => {
-    const { email, password } = req.body;
+    const { fname, lname, email, password } = req.body;
 
     console.log("Rgister API Called");
     // console.log("Api req:", req.body, email, password);
 
-    console.log(users);
-    if (users.find(u => u.email === email)) {
-        return res.status(409).json({
-            message: "User Already Exisit"
-        })
-    }
+    // console.log(users);
+    // if (users.find(u => u.email === email)) {
+    //     return res.status(409).json({
+    //         message: "User Already Exisit"
+    //     })
+    // }
 
-    if (!email || !password) {
+    if (!email || !password || !fname || !lname) {
         return res.status(400).json({
             message: "Email or Passowrd are required"
         })
     }
 
-    const hashbPassword = await bcrypt.hash(password, 10)
+    const existingUser = await userService.findByEmail(email);
+    if (existingUser) {
+        return res.status(409).json({
+            message: "User already exists"
+        })
+    }
 
-    users.push({ email, password: hashbPassword });
-    console.log(users);
+    const hashedPassword = await bcrypt.hash(password, 10)
+
+    const user = await userService.createUser({
+        fname,
+        lname,
+        email,
+        hashedPassword,
+    })
+
+    // users.push({ email, password: hashbPassword });
+    // console.log(users);
 
     return res.status(201).json({
         message: "User Registered Succefully"
